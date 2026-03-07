@@ -196,7 +196,7 @@ export default function App() {
       {/* Botão Admin Secreto */}
       <button
         onClick={() => setShowAdminLogin(true)}
-        className="fixed top-4 right-4 p-3 text-blue-200/50 hover:text-blue-400 hover:bg-blue-50 transition-all rounded-full z-50 opacity-50 hover:opacity-100"
+        className="fixed top-4 right-4 p-3 text-slate-400 bg-white/60 backdrop-blur-sm border border-slate-200/50 shadow-sm hover:text-blue-500 hover:bg-white transition-all rounded-full z-50 opacity-90 hover:opacity-100"
         title="Área Administrativa"
       >
         <Lock size={18} />
