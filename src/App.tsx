@@ -431,7 +431,7 @@ export default function App() {
       </p>
 
       {/* Créditos */}
-      <p className="absolute bottom-2 right-4 text-[10px] text-slate-300/50 uppercase tracking-widest font-mono select-none">
+      <p className="absolute bottom-2 right-4 text-[10px] text-slate-400 uppercase tracking-widest font-mono select-none">
         Feito pelos Vritra
       </p>
     </div>
