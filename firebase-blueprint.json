@@ -1,0 +1,28 @@
+{
+  "entities": {
+    "RSVP": {
+      "title": "RSVP",
+      "description": "A confirmation of attendance for the baby shower.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the guest confirming attendance."
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "When the RSVP was created."
+        }
+      },
+      "required": ["name", "createdAt"]
+    }
+  },
+  "firestore": {
+    "rsvps/{rsvpId}": {
+      "schema": {
+        "$ref": "#/entities/RSVP"
+      },
+      "description": "Collection of all RSVPs."
+    }
+  }
+}

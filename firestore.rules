@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    // Collection: rsvps
+    // Document ID: auto-generated
+    // Fields:
+    //   - name: string (required, max 100 chars)
+    //   - createdAt: timestamp (required)
+    // ===============================================================
+
+    // Helper Functions
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+    
+    function isValidStringLength(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+        request.resource.data[field].size() >= minLen &&
+        request.resource.data[field].size() <= maxLen;
+    }
+
+    function isValidRSVP() {
+      return hasOnlyAllowedFields(['name', 'createdAt']) &&
+             isValidStringLength('name', 2, 100) &&
+             request.resource.data.createdAt is timestamp;
+    }
+
+    match /rsvps/{rsvpId} {
+      // Allow anyone to read the RSVPs to get the total count
+      allow read: if true;
+      
+      // Allow anyone to create an RSVP if the data is valid
+      allow create: if isValidRSVP();
+      
+      // Do not allow updates or deletes
+      allow update, delete: if false;
+    }
+  }
+}
