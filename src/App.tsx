@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from './firebase';
-import { collection, addDoc, onSnapshot, serverTimestamp, query, orderBy } from 'firebase/firestore';
-import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2 } from 'lucide-react';
+import { collection, addDoc, onSnapshot, serverTimestamp, query, orderBy, Timestamp } from 'firebase/firestore';
+import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut } from 'lucide-react';
 
 // ==========================================
 // CONFIGURAÇÕES DO EVENTO (Fácil de editar)
@@ -17,20 +17,41 @@ const EVENT_INFO = {
   time: "15:00 às 19:00",
 };
 
+const ADMIN_PASSWORD = "admin";
+
+interface RSVP {
+  id: string;
+  name: string;
+  createdAt: Timestamp | null;
+}
+
 export default function App() {
   const [name, setName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasConfirmed, setHasConfirmed] = useState(false);
   const [rsvpCount, setRsvpCount] = useState(0);
+  const [rsvpsList, setRsvpsList] = useState<RSVP[]>([]);
   const [error, setError] = useState('');
 
-  // Escutar o número de confirmações em tempo real
+  // Admin states
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [isAdminAuth, setIsAdminAuth] = useState(false);
+  const [adminError, setAdminError] = useState('');
+
+  // Escutar o número de confirmações e a lista completa em tempo real
   useEffect(() => {
     const rsvpsRef = collection(db, 'rsvps');
     const q = query(rsvpsRef, orderBy('createdAt', 'desc'));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setRsvpCount(snapshot.size);
+
+      const rsvpsData: RSVP[] = [];
+      snapshot.forEach((doc) => {
+        rsvpsData.push({ id: doc.id, ...doc.data() } as RSVP);
+      });
+      setRsvpsList(rsvpsData);
     }, (err) => {
       console.error("Erro ao carregar confirmações:", err);
     });
@@ -233,6 +254,11 @@ export default function App() {
 
       <p className="mt-8 text-slate-400 text-xs text-center max-w-xs">
         Esperamos você nesse momento especial!
+      </p>
+
+      {/* Créditos */}
+      <p className="absolute bottom-2 right-4 text-[10px] text-slate-300/50 uppercase tracking-widest font-mono select-none">
+        Feito pelos Vritra
       </p>
     </div>
   );
