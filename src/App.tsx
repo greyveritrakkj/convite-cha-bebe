@@ -243,6 +243,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-blue-50/50 font-sans text-slate-800 selection:bg-blue-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
+      {/* Container principal */}
 
       {/* Botão Admin Secreto */}
       <button
