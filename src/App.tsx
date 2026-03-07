@@ -325,7 +325,7 @@ export default function App() {
           <h2 className="text-blue-400 font-bold tracking-widest uppercase text-xs mb-3">
             {EVENT_INFO.title}
           </h2>
-          <h1 className="text-5xl sm:text-6xl font-[Pacifico] text-blue-600 mb-4 drop-shadow-sm leading-tight">
+          <h1 className="text-5xl sm:text-6xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-sky-500 to-indigo-500 mb-4 drop-shadow-sm leading-tight pb-1">
             {EVENT_INFO.babyName}
           </h1>
           <p className="text-slate-500 font-medium text-sm sm:text-base px-4">
