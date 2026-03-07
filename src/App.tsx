@@ -87,6 +87,109 @@ export default function App() {
     }
   };
 
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (adminPassword === ADMIN_PASSWORD) {
+      setIsAdminAuth(true);
+      setShowAdminLogin(false);
+      setAdminError('');
+    } else {
+      setAdminError('Senha incorreta.');
+    }
+  };
+
+  const handleAdminLogout = () => {
+    setIsAdminAuth(false);
+    setAdminPassword('');
+  };
+
+  const formatDate = (timestamp: Timestamp | null) => {
+    if (!timestamp) return 'Data não disponível';
+    const date = timestamp.toDate();
+    return new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    }).format(date);
+  };
+
+  // ADMIN DASHBOARD RENDER
+  if (isAdminAuth) {
+    return (
+      <div className="min-h-screen bg-slate-50 font-sans text-slate-800 p-4 sm:p-8 flex flex-col items-center">
+        <div className="max-w-3xl w-full bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-10">
+          <div className="flex justify-between items-center mb-8 border-b border-slate-100 pb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-500">
+                <Users size={24} />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-slate-800">Convidados Confirmados</h1>
+                <p className="text-slate-500 text-sm">Painel Administrativo do Chá de Bebê</p>
+              </div>
+            </div>
+            <button
+              onClick={handleAdminLogout}
+              className="flex items-center gap-2 text-slate-500 hover:text-red-500 transition-colors px-4 py-2 rounded-lg hover:bg-red-50"
+            >
+              <LogOut size={18} />
+              <span className="hidden sm:inline">Sair</span>
+            </button>
+          </div>
+
+          <div className="bg-blue-50/50 rounded-2xl p-6 mb-8 border border-blue-100/50 flex items-center justify-between">
+            <span className="text-slate-600 font-medium">Total de confirmações:</span>
+            <span className="bg-blue-500 text-white text-xl font-bold px-4 py-2 rounded-xl shadow-sm">
+              {rsvpCount} pessoas
+            </span>
+          </div>
+
+          {rsvpsList.length === 0 ? (
+            <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-100 border-dashed">
+              <ListOrdered size={48} className="mx-auto text-slate-300 mb-4" />
+              <p className="text-slate-500">Ninguém confirmou presença ainda.</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b-2 border-slate-100 text-slate-400 text-sm uppercase tracking-wider">
+                    <th className="pb-4 pl-4 font-medium">Nome do Convidado</th>
+                    <th className="pb-4 font-medium">Data e Hora da Confirmação</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {rsvpsList.map((rsvp, index) => (
+                    <motion.tr
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      key={rsvp.id}
+                      className="hover:bg-slate-50/50 transition-colors group"
+                    >
+                      <td className="py-4 pl-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs shrink-0">
+                            {index + 1}
+                          </div>
+                          <span className="font-medium text-slate-700">{rsvp.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-4 text-slate-500 text-sm">
+                        {formatDate(rsvp.createdAt)}
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // MAIN INVITATION RENDER
+
   return (
     <div className="min-h-screen bg-blue-50/50 font-sans text-slate-800 selection:bg-blue-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
 
