@@ -13,7 +13,9 @@ service cloud.firestore {
 
     // Helper Functions
     function hasOnlyAllowedFields(fields) {
-      return request.resource.data.keys().hasOnly(fields);
+      // allow childrenNames as an optional field by checking if keys are a subset
+      return request.resource.data.keys().hasAll(['name', 'createdAt']) 
+          && request.resource.data.keys().hasOnly(['name', 'createdAt', 'childrenNames']);
     }
     
     function isValidStringLength(field, minLen, maxLen) {
@@ -23,7 +25,7 @@ service cloud.firestore {
     }
 
     function isValidRSVP() {
-      return hasOnlyAllowedFields(['name', 'createdAt']) &&
+      return hasOnlyAllowedFields() &&
              isValidStringLength('name', 2, 100) &&
              request.resource.data.createdAt is timestamp;
     }
@@ -35,8 +37,11 @@ service cloud.firestore {
       // Allow anyone to create an RSVP if the data is valid
       allow create: if isValidRSVP();
       
-      // Do not allow updates or deletes
-      allow update, delete: if false;
+      // Allow delete for the admin panel
+      allow delete: if true;
+      
+      // Do not allow updates
+      allow update: if false;
     }
   }
 }
