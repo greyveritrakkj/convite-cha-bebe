@@ -22,11 +22,13 @@ const ADMIN_PASSWORD = "painelvritra";
 interface RSVP {
   id: string;
   name: string;
+  childrenNames?: string;
   createdAt: Timestamp | null;
 }
 
 export default function App() {
   const [name, setName] = useState('');
+  const [childrenNames, setChildrenNames] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasConfirmed, setHasConfirmed] = useState(false);
   const [rsvpCount, setRsvpCount] = useState(0);
@@ -76,6 +78,7 @@ export default function App() {
     try {
       await addDoc(collection(db, 'rsvps'), {
         name: name.trim(),
+        childrenNames: childrenNames.trim(),
         createdAt: serverTimestamp()
       });
       setHasConfirmed(true);
