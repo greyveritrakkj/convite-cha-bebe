@@ -12,7 +12,7 @@ const EVENT_INFO = {
   title: "Chá de Bebê do", // Título antes do nome
   subtitle: "Estamos esperando você para celebrar esse momento especial!",
   message: "Com muito carinho, convidamos você para celebrar a chegada do nosso pequeno príncipe. Sua presença vai deixar esse momento ainda mais especial e inesquecível para nossa família.",
-  location: "Salão de Festas - Rua das Nuvens, 123",
+  location: "Chácara Capixaba",
   date: "Sábado, 15 de Novembro",
   time: "15:00 às 19:00",
 };
