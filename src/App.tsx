@@ -156,7 +156,8 @@ export default function App() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b-2 border-slate-100 text-slate-400 text-sm uppercase tracking-wider">
-                    <th className="pb-4 pl-4 font-medium">Nome do Convidado</th>
+                    <th className="pb-4 pl-4 font-medium">Convidado Principal</th>
+                    <th className="pb-4 font-medium">Nome dos Filhos</th>
                     <th className="pb-4 font-medium">Data e Hora da Confirmação</th>
                   </tr>
                 </thead>
@@ -176,6 +177,9 @@ export default function App() {
                           </div>
                           <span className="font-medium text-slate-700">{rsvp.name}</span>
                         </div>
+                      </td>
+                      <td className="py-4 font-medium text-slate-600">
+                        {rsvp.childrenNames ? rsvp.childrenNames : <span className="text-slate-300 italic">Nenhum</span>}
                       </td>
                       <td className="py-4 text-slate-500 text-sm">
                         {formatDate(rsvp.createdAt)}
@@ -353,10 +357,19 @@ export default function App() {
 
                   <input
                     type="text"
-                    placeholder="Digite seu nome completo"
+                    placeholder="Nome completo do convidado principal"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all bg-white text-slate-700 placeholder:text-slate-400"
+                    disabled={isSubmitting}
+                  />
+
+                  <input
+                    type="text"
+                    placeholder="Nome dos filhos (opcional)"
+                    value={childrenNames}
+                    onChange={(e) => setChildrenNames(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all bg-white text-slate-700 placeholder:text-slate-400 text-sm"
                     disabled={isSubmitting}
                   />
 
