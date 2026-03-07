@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from './firebase';
-import { collection, addDoc, onSnapshot, serverTimestamp, query, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, serverTimestamp, query, orderBy, Timestamp, deleteDoc, doc } from 'firebase/firestore';
 import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut, PlusCircle, Trash2, Info } from 'lucide-react';
 
 // ==========================================
@@ -52,13 +52,19 @@ export default function App() {
     const q = query(rsvpsRef, orderBy('createdAt', 'desc'));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setRsvpCount(snapshot.size);
-
+      let totalCount = 0;
       const rsvpsData: RSVP[] = [];
-      snapshot.forEach((doc) => {
-        rsvpsData.push({ id: doc.id, ...doc.data() } as RSVP);
+
+      snapshot.forEach((firestoreDoc) => {
+        const data = firestoreDoc.data() as Omit<RSVP, 'id'>;
+        rsvpsData.push({ id: firestoreDoc.id, ...data } as RSVP);
+
+        // 1 adulto + filhos
+        totalCount += 1 + (data.childrenNames ? data.childrenNames.length : 0);
       });
+
       setRsvpsList(rsvpsData);
+      setRsvpCount(totalCount);
     }, (err) => {
       console.error("Erro ao carregar confirmações:", err);
     });
@@ -135,6 +141,17 @@ export default function App() {
     setAdminPassword('');
   };
 
+  const handleDeleteRSVP = async (id: string, name: string) => {
+    if (window.confirm(`Tem certeza que deseja apagar a confirmação de ${name}?`)) {
+      try {
+        await deleteDoc(doc(db, 'rsvps', id));
+      } catch (err) {
+        console.error("Erro ao deletar:", err);
+        alert("Ocorreu um erro ao apagar essa confirmação.");
+      }
+    }
+  };
+
   const formatDate = (timestamp: Timestamp | null) => {
     if (!timestamp) return 'Data não disponível';
     const date = timestamp.toDate();
@@ -187,7 +204,8 @@ export default function App() {
                   <tr className="border-b-2 border-slate-100 text-slate-400 text-sm uppercase tracking-wider">
                     <th className="pb-4 pl-4 font-medium">Convidado Principal</th>
                     <th className="pb-4 font-medium">Nome dos Filhos</th>
-                    <th className="pb-4 font-medium">Data e Hora da Confirmação</th>
+                    <th className="pb-4 font-medium">Data e Hora</th>
+                    <th className="pb-4 pr-4 font-medium text-right">Ações</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -197,7 +215,7 @@ export default function App() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.05 }}
                       key={rsvp.id}
-                      className="hover:bg-slate-50/50 transition-colors group"
+                      className="hover:bg-slate-50/50 transition-colors group relative"
                     >
                       <td className="py-4 pl-4">
                         <div className="flex items-center gap-3">
@@ -227,6 +245,15 @@ export default function App() {
                       </td>
                       <td className="py-4 text-slate-500 text-sm">
                         {formatDate(rsvp.createdAt)}
+                      </td>
+                      <td className="py-4 pr-4 text-right">
+                        <button
+                          onClick={() => handleDeleteRSVP(rsvp.id, rsvp.name)}
+                          className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                          title={`Apagar confirmação de ${rsvp.name}`}
+                        >
+                          <Trash2 size={16} />
+                        </button>
                       </td>
                     </motion.tr>
                   ))}
