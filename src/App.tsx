@@ -308,13 +308,13 @@ export default function App() {
             <Baby size={40} strokeWidth={1.5} />
           </motion.div>
 
-          <h2 className="text-blue-400 font-medium tracking-widest uppercase text-sm mb-2">
+          <h2 className="text-blue-400 font-bold tracking-widest uppercase text-xs mb-3">
             {EVENT_INFO.title}
           </h2>
-          <h1 className="text-4xl sm:text-5xl font-serif text-blue-900 mb-3">
+          <h1 className="text-5xl sm:text-6xl font-[Pacifico] text-blue-600 mb-4 drop-shadow-sm leading-tight">
             {EVENT_INFO.babyName}
           </h1>
-          <p className="text-slate-500 text-sm sm:text-base px-4">
+          <p className="text-slate-500 font-medium text-sm sm:text-base px-4">
             {EVENT_INFO.subtitle}
           </p>
         </div>
