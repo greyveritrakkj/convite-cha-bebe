@@ -249,7 +249,7 @@ export default function App() {
                       <td className="py-4 pr-4 text-right">
                         <button
                           onClick={() => handleDeleteRSVP(rsvp.id, rsvp.name)}
-                          className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                          className="p-2 text-red-400 bg-red-50/50 hover:text-red-600 hover:bg-red-100 rounded-lg transition-colors shadow-sm"
                           title={`Apagar confirmação de ${rsvp.name}`}
                         >
                           <Trash2 size={16} />
