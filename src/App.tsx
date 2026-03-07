@@ -8,7 +8,7 @@ import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrd
 // CONFIGURAÇÕES DO EVENTO (Fácil de editar)
 // ==========================================
 const EVENT_INFO = {
-  babyName: "Miguel", // Nome do bebê
+  babyName: "Luan Luiz", // Nome do bebê
   title: "Chá de Bebê do", // Título antes do nome
   subtitle: "Estamos esperando você para celebrar esse momento especial!",
   message: "Com muito carinho, convidamos você para celebrar a chegada do nosso pequeno príncipe. Sua presença vai deixar esse momento ainda mais especial e inesquecível para nossa família.",
