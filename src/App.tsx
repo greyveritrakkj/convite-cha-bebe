@@ -12,7 +12,7 @@ const EVENT_INFO = {
   title: "Chá de Bebê do", // Título antes do nome
   subtitle: "Estamos esperando você para celebrar esse momento especial!",
   message: "Com muito carinho, convidamos você para celebrar a chegada do nosso pequeno príncipe. Sua presença vai deixar esse momento ainda mais especial e inesquecível para nossa família.",
-  location: "Chácara Capixaba",
+  location: "Chácara Capixaba - Av. Maria Caetano de Abreu, 230 - Jardim Cambiri, Ferraz de Vasconcelos - SP",
   date: "Sábado, 15 de Novembro",
   time: "15:00 às 19:00",
 };
@@ -28,7 +28,7 @@ export default function App() {
   useEffect(() => {
     const rsvpsRef = collection(db, 'rsvps');
     const q = query(rsvpsRef, orderBy('createdAt', 'desc'));
-    
+
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setRsvpCount(snapshot.size);
     }, (err) => {
@@ -68,14 +68,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-blue-50/50 font-sans text-slate-800 selection:bg-blue-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
-      
+
       {/* Elementos decorativos de fundo */}
       <div className="absolute top-10 left-10 text-amber-300/30 animate-pulse"><Star size={40} /></div>
       <div className="absolute top-20 right-16 text-amber-300/30 animate-pulse delay-75"><Star size={24} /></div>
       <div className="absolute bottom-20 left-1/4 text-amber-300/30 animate-pulse delay-150"><Star size={32} /></div>
       <div className="absolute top-1/3 right-10 text-amber-300/30 animate-pulse delay-300"><Star size={48} /></div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -83,7 +83,7 @@ export default function App() {
       >
         {/* Cabeçalho */}
         <div className="bg-gradient-to-b from-blue-100/80 to-white pt-12 pb-8 px-6 text-center relative">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", bounce: 0.5, delay: 0.2 }}
@@ -91,7 +91,7 @@ export default function App() {
           >
             <Baby size={40} strokeWidth={1.5} />
           </motion.div>
-          
+
           <h2 className="text-blue-400 font-medium tracking-widest uppercase text-sm mb-2">
             {EVENT_INFO.title}
           </h2>
@@ -112,7 +112,7 @@ export default function App() {
 
         {/* Informações do Evento */}
         <div className="px-6 py-6 space-y-4">
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.02 }}
             className="flex items-center p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50"
           >
@@ -126,7 +126,7 @@ export default function App() {
           </motion.div>
 
           <div className="grid grid-cols-2 gap-4">
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.02 }}
               className="flex items-center p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50"
             >
@@ -139,7 +139,7 @@ export default function App() {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.02 }}
               className="flex items-center p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50"
             >
@@ -159,7 +159,7 @@ export default function App() {
           <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 shadow-inner">
             <AnimatePresence mode="wait">
               {!hasConfirmed ? (
-                <motion.form 
+                <motion.form
                   key="form"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -168,7 +168,7 @@ export default function App() {
                   className="flex flex-col gap-3"
                 >
                   <h3 className="text-center font-medium text-slate-700 mb-2">Confirme sua presença</h3>
-                  
+
                   <input
                     type="text"
                     placeholder="Digite seu nome completo"
@@ -177,7 +177,7 @@ export default function App() {
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all bg-white text-slate-700 placeholder:text-slate-400"
                     disabled={isSubmitting}
                   />
-                  
+
                   {error && (
                     <p className="text-red-400 text-xs text-center">{error}</p>
                   )}
@@ -200,7 +200,7 @@ export default function App() {
                   </motion.button>
                 </motion.form>
               ) : (
-                <motion.div 
+                <motion.div
                   key="success"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -217,7 +217,7 @@ export default function App() {
           </div>
 
           {/* Contador */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
