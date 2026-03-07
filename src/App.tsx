@@ -19,16 +19,21 @@ const EVENT_INFO = {
 
 const ADMIN_PASSWORD = "2013";
 
+interface Child {
+  name: string;
+  isUnder12: boolean;
+}
+
 interface RSVP {
   id: string;
   name: string;
-  childrenNames?: string[];
+  childrenNames?: Child[];
   createdAt: Timestamp | null;
 }
 
 export default function App() {
   const [name, setName] = useState('');
-  const [childrenInputs, setChildrenInputs] = useState<string[]>([]);
+  const [childrenInputs, setChildrenInputs] = useState<Child[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasConfirmed, setHasConfirmed] = useState(false);
   const [rsvpCount, setRsvpCount] = useState(0);
@@ -62,7 +67,7 @@ export default function App() {
   }, []);
 
   const handleAddChild = () => {
-    setChildrenInputs([...childrenInputs, '']);
+    setChildrenInputs([...childrenInputs, { name: '', isUnder12: false }]);
   };
 
   const handleRemoveChild = (index: number) => {
@@ -70,9 +75,13 @@ export default function App() {
     setChildrenInputs(updatedInputs);
   };
 
-  const handleChildInputChange = (value: string, index: number) => {
+  const handleChildInputChange = (value: string, index: number, field: 'name' | 'isUnder12') => {
     const updatedInputs = [...childrenInputs];
-    updatedInputs[index] = value;
+    if (field === 'name') {
+      updatedInputs[index].name = value;
+    } else {
+      updatedInputs[index].isUnder12 = value === 'true';
+    }
     setChildrenInputs(updatedInputs);
   };
 
@@ -92,8 +101,8 @@ export default function App() {
 
     // Filtra os inputs de filhos vazios antes de salvar
     const validChildrenNames = childrenInputs
-      .map(childName => childName.trim())
-      .filter(childName => childName.length > 0);
+      .filter(child => child.name.trim().length > 0)
+      .map(child => ({ ...child, name: child.name.trim() }));
 
     try {
       await addDoc(collection(db, 'rsvps'), {
@@ -200,10 +209,15 @@ export default function App() {
                       </td>
                       <td className="py-4 font-medium text-slate-600">
                         {rsvp.childrenNames && rsvp.childrenNames.length > 0 ? (
-                          <div className="flex flex-wrap gap-1 border-emerald-50 text-emerald-600 bg-emerald-50">
+                          <div className="flex flex-wrap gap-2 border-emerald-50 text-emerald-600 bg-emerald-50">
                             {rsvp.childrenNames.map((child, idx) => (
-                              <span key={idx} className="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-xs font-semibold uppercase tracking-wider">
-                                {child}
+                              <span key={idx} className="bg-blue-100 text-blue-700 px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 shadow-sm border border-blue-200/50">
+                                {child.name}
+                                {child.isUnder12 && (
+                                  <span className="bg-amber-100 text-amber-600 px-1.5 py-0.5 rounded text-[10px] ml-1 flex items-center" title="Menor de 12 anos">
+                                    <Baby size={10} className="mr-0.5" /> -12
+                                  </span>
+                                )}
                               </span>
                             ))}
                           </div>
@@ -403,32 +417,50 @@ export default function App() {
                     )}
 
                     <AnimatePresence>
-                      {childrenInputs.map((childName, index) => (
+                      {childrenInputs.map((child, index) => (
                         <motion.div
                           key={`child-${index}`}
                           initial={{ opacity: 0, height: 0, scale: 0.9 }}
                           animate={{ opacity: 1, height: 'auto', scale: 1 }}
                           exit={{ opacity: 0, height: 0, scale: 0.9 }}
-                          className="flex items-center gap-2"
+                          className="flex flex-col gap-2 p-3 bg-blue-50/30 border border-blue-100/50 rounded-xl"
                         >
-                          <input
-                            type="text"
-                            placeholder={`Nome do filho(a) ${index + 1}`}
-                            value={childName}
-                            onChange={(e) => handleChildInputChange(e.target.value, index)}
-                            className="w-full px-4 py-2.5 rounded-xl border border-blue-100/50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all bg-blue-50/30 text-slate-700 placeholder:text-blue-300 text-sm"
-                            disabled={isSubmitting}
-                            autoFocus
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveChild(index)}
-                            className="p-2 text-slate-300 hover:text-red-400 hover:bg-red-50 rounded-lg transition-colors"
-                            disabled={isSubmitting}
-                            title="Remover filho"
-                          >
-                            <Trash2 size={18} />
-                          </button>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              placeholder={`Nome do filho(a) ${index + 1}`}
+                              value={child.name}
+                              onChange={(e) => handleChildInputChange(e.target.value, index, 'name')}
+                              className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all bg-white text-slate-700 placeholder:text-slate-400 text-sm"
+                              disabled={isSubmitting}
+                              autoFocus
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveChild(index)}
+                              className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors bg-white border border-slate-200"
+                              disabled={isSubmitting}
+                              title="Remover filho"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
+
+                          <label className="flex items-center gap-2 cursor-pointer ml-1 select-none group">
+                            <div className="relative flex items-center justify-center w-5 h-5">
+                              <input
+                                type="checkbox"
+                                checked={child.isUnder12}
+                                onChange={(e) => handleChildInputChange(e.target.checked.toString(), index, 'isUnder12')}
+                                className="peer appearance-none w-5 h-5 border-2 border-slate-300 rounded cursor-pointer checked:bg-blue-500 checked:border-blue-500 transition-colors"
+                                disabled={isSubmitting}
+                              />
+                              <CheckCircle2 size={16} className="absolute text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" strokeWidth={3} />
+                            </div>
+                            <span className="text-sm text-slate-600 group-hover:text-slate-800 transition-colors">
+                              Tem menos de 12 anos?
+                            </span>
+                          </label>
                         </motion.div>
                       ))}
                     </AnimatePresence>
