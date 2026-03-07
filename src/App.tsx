@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from './firebase';
 import { collection, addDoc, onSnapshot, serverTimestamp, query, orderBy, Timestamp } from 'firebase/firestore';
-import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut, PlusCircle, Trash2 } from 'lucide-react';
+import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut, PlusCircle, Trash2, Info } from 'lucide-react';
 
 // ==========================================
 // CONFIGURAÇÕES DO EVENTO (Fácil de editar)
@@ -433,6 +433,13 @@ export default function App() {
                       ))}
                     </AnimatePresence>
 
+                    <div className="flex items-start gap-2 bg-blue-50/50 p-3 rounded-xl border border-blue-100/50">
+                      <div className="text-blue-400 mt-0.5"><Info size={16} /></div>
+                      <p className="text-xs text-slate-500 leading-relaxed">
+                        Se você for levar seus filhos ou menores responsáveis, clique no botão <span className="font-semibold text-blue-500">"+"</span> abaixo para cadastrar o nome de cada um deles na lista de convidados.
+                      </p>
+                    </div>
+
                     <button
                       type="button"
                       onClick={handleAddChild}
@@ -440,7 +447,7 @@ export default function App() {
                       disabled={isSubmitting}
                     >
                       <PlusCircle size={16} />
-                      {childrenInputs.length === 0 ? "Adicionar Filho (opcional)" : "Adicionar outro filho"}
+                      {childrenInputs.length === 0 ? "Adicionar um Filho (opcional)" : "Adicionar outro filho"}
                     </button>
                   </div>
 
