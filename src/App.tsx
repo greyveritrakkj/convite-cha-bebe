@@ -387,6 +387,16 @@ export default function App() {
 
         {/* Área de Confirmação */}
         <div className="px-6 pb-8 pt-2">
+
+          {/* Alerta Convidado não Convida */}
+          <div className="mb-4 bg-amber-50/80 border border-amber-200/60 rounded-xl p-3 flex items-start gap-3 shadow-sm">
+            <div className="text-amber-500 mt-0.5"><Users size={18} /></div>
+            <div>
+              <p className="text-sm font-bold text-amber-700 uppercase tracking-wide mb-0.5">Lembrete Importante</p>
+              <p className="text-xs text-amber-600 leading-relaxed font-medium">A nossa lista é restrita e planejada com muito carinho. Por favor, lembre-se: <b>Convidado não convida!</b></p>
+            </div>
+          </div>
+
           <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 shadow-inner">
             <AnimatePresence mode="wait">
               {!hasConfirmed ? (
