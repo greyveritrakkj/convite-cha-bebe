@@ -17,7 +17,7 @@ const EVENT_INFO = {
   time: "15:00 às 19:00",
 };
 
-const ADMIN_PASSWORD = "admin";
+const ADMIN_PASSWORD = "painelvritra";
 
 interface RSVP {
   id: string;
