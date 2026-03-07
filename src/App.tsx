@@ -90,6 +90,61 @@ export default function App() {
   return (
     <div className="min-h-screen bg-blue-50/50 font-sans text-slate-800 selection:bg-blue-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
 
+      {/* Botão Admin Secreto */}
+      <button
+        onClick={() => setShowAdminLogin(true)}
+        className="fixed top-4 right-4 p-3 text-blue-200/50 hover:text-blue-400 hover:bg-blue-50 transition-all rounded-full z-50 opacity-50 hover:opacity-100"
+        title="Área Administrativa"
+      >
+        <Lock size={18} />
+      </button>
+
+      {/* Modal de Login Admin */}
+      <AnimatePresence>
+        {showAdminLogin && (
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl relative"
+            >
+              <button
+                onClick={() => { setShowAdminLogin(false); setAdminError(''); setAdminPassword(''); }}
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <Lock size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-center text-slate-800 mb-6">Acesso Administrativo</h3>
+
+              <form onSubmit={handleAdminLogin} className="space-y-4">
+                <div>
+                  <input
+                    type="password"
+                    placeholder="Digite a senha"
+                    value={adminPassword}
+                    onChange={(e) => setAdminPassword(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all"
+                    autoFocus
+                  />
+                  {adminError && <p className="text-red-400 text-xs mt-2">{adminError}</p>}
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-3 rounded-xl transition-colors"
+                >
+                  Entrar
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Elementos decorativos de fundo */}
       <div className="absolute top-10 left-10 text-amber-300/30 animate-pulse"><Star size={40} /></div>
       <div className="absolute top-20 right-16 text-amber-300/30 animate-pulse delay-75"><Star size={24} /></div>
