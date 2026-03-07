@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from './firebase';
 import { collection, addDoc, onSnapshot, serverTimestamp, query, orderBy, Timestamp } from 'firebase/firestore';
-import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut } from 'lucide-react';
+import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut, PlusCircle, Trash2 } from 'lucide-react';
 
 // ==========================================
 // CONFIGURAÇÕES DO EVENTO (Fácil de editar)
@@ -22,13 +22,13 @@ const ADMIN_PASSWORD = "painelvritra";
 interface RSVP {
   id: string;
   name: string;
-  childrenNames?: string;
+  childrenNames?: string[];
   createdAt: Timestamp | null;
 }
 
 export default function App() {
   const [name, setName] = useState('');
-  const [childrenNames, setChildrenNames] = useState('');
+  const [childrenInputs, setChildrenInputs] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasConfirmed, setHasConfirmed] = useState(false);
   const [rsvpCount, setRsvpCount] = useState(0);
@@ -61,10 +61,25 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
+  const handleAddChild = () => {
+    setChildrenInputs([...childrenInputs, '']);
+  };
+
+  const handleRemoveChild = (index: number) => {
+    const updatedInputs = childrenInputs.filter((_, i) => i !== index);
+    setChildrenInputs(updatedInputs);
+  };
+
+  const handleChildInputChange = (value: string, index: number) => {
+    const updatedInputs = [...childrenInputs];
+    updatedInputs[index] = value;
+    setChildrenInputs(updatedInputs);
+  };
+
   const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError('Por favor, digite seu nome.');
+      setError('Por favor, digite seu nome principal.');
       return;
     }
     if (name.trim().length < 2) {
@@ -75,10 +90,15 @@ export default function App() {
     setIsSubmitting(true);
     setError('');
 
+    // Filtra os inputs de filhos vazios antes de salvar
+    const validChildrenNames = childrenInputs
+      .map(childName => childName.trim())
+      .filter(childName => childName.length > 0);
+
     try {
       await addDoc(collection(db, 'rsvps'), {
         name: name.trim(),
-        childrenNames: childrenNames.trim(),
+        childrenNames: validChildrenNames,
         createdAt: serverTimestamp()
       });
       setHasConfirmed(true);
@@ -179,7 +199,17 @@ export default function App() {
                         </div>
                       </td>
                       <td className="py-4 font-medium text-slate-600">
-                        {rsvp.childrenNames ? rsvp.childrenNames : <span className="text-slate-300 italic">Nenhum</span>}
+                        {rsvp.childrenNames && rsvp.childrenNames.length > 0 ? (
+                          <div className="flex flex-wrap gap-1 border-emerald-50 text-emerald-600 bg-emerald-50">
+                            {rsvp.childrenNames.map((child, idx) => (
+                              <span key={idx} className="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-xs font-semibold uppercase tracking-wider">
+                                {child}
+                              </span>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="text-slate-300 italic text-sm">Nenhum</span>
+                        )}
                       </td>
                       <td className="py-4 text-slate-500 text-sm">
                         {formatDate(rsvp.createdAt)}
@@ -360,18 +390,59 @@ export default function App() {
                     placeholder="Nome completo do convidado principal"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all bg-white text-slate-700 placeholder:text-slate-400"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all bg-white text-slate-700 placeholder:text-slate-400 font-medium"
                     disabled={isSubmitting}
                   />
 
-                  <input
-                    type="text"
-                    placeholder="Nome dos filhos (opcional)"
-                    value={childrenNames}
-                    onChange={(e) => setChildrenNames(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all bg-white text-slate-700 placeholder:text-slate-400 text-sm"
-                    disabled={isSubmitting}
-                  />
+                  {/* Campos Dinâmicos de Filhos */}
+                  <div className="flex flex-col gap-2 mt-2">
+                    {childrenInputs.length > 0 && (
+                      <label className="text-xs font-medium text-slate-500 ml-1 uppercase tracking-wider">
+                        Filhos acompanhantes:
+                      </label>
+                    )}
+
+                    <AnimatePresence>
+                      {childrenInputs.map((childName, index) => (
+                        <motion.div
+                          key={`child-${index}`}
+                          initial={{ opacity: 0, height: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, height: 'auto', scale: 1 }}
+                          exit={{ opacity: 0, height: 0, scale: 0.9 }}
+                          className="flex items-center gap-2"
+                        >
+                          <input
+                            type="text"
+                            placeholder={`Nome do filho(a) ${index + 1}`}
+                            value={childName}
+                            onChange={(e) => handleChildInputChange(e.target.value, index)}
+                            className="w-full px-4 py-2.5 rounded-xl border border-blue-100/50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all bg-blue-50/30 text-slate-700 placeholder:text-blue-300 text-sm"
+                            disabled={isSubmitting}
+                            autoFocus
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveChild(index)}
+                            className="p-2 text-slate-300 hover:text-red-400 hover:bg-red-50 rounded-lg transition-colors"
+                            disabled={isSubmitting}
+                            title="Remover filho"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+
+                    <button
+                      type="button"
+                      onClick={handleAddChild}
+                      className="mt-1 flex items-center justify-center gap-2 w-full py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-500 font-medium rounded-xl text-sm transition-colors border border-blue-100/50 border-dashed hover:border-solid disabled:opacity-50"
+                      disabled={isSubmitting}
+                    >
+                      <PlusCircle size={16} />
+                      {childrenInputs.length === 0 ? "Adicionar Filho (opcional)" : "Adicionar outro filho"}
+                    </button>
+                  </div>
 
                   {error && (
                     <p className="text-red-400 text-xs text-center">{error}</p>
