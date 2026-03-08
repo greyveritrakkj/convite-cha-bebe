@@ -8,14 +8,15 @@ service cloud.firestore {
     // Document ID: auto-generated
     // Fields:
     //   - name: string (required, max 100 chars)
+    //   - status: string (required: 'yes' | 'no')
+    //   - childrenNames: list (optional, max 3 children)
     //   - createdAt: timestamp (required)
     // ===============================================================
 
     // Helper Functions
     function hasOnlyAllowedFields() {
-      // allow childrenNames as an optional field by checking if keys are a subset
-      return request.resource.data.keys().hasAll(['name', 'createdAt']) 
-          && request.resource.data.keys().hasOnly(['name', 'createdAt', 'childrenNames']);
+      return request.resource.data.keys().hasAll(['name', 'createdAt', 'status']) &&
+          request.resource.data.keys().hasOnly(['name', 'createdAt', 'status', 'childrenNames']);
     }
     
     function isValidStringLength(field, minLen, maxLen) {
@@ -24,9 +25,31 @@ service cloud.firestore {
         request.resource.data[field].size() <= maxLen;
     }
 
+    function isValidStatus() {
+      return request.resource.data.status in ['yes', 'no'];
+    }
+
+    function isValidChildrenNames() {
+      return !('childrenNames' in request.resource.data) || (
+        request.resource.data.childrenNames is list &&
+        request.resource.data.childrenNames.size() <= 3 &&
+        request.resource.data.childrenNames.all(child,
+          child is map &&
+          child.keys().hasAll(['name', 'isUnder12']) &&
+          child.keys().hasOnly(['name', 'isUnder12']) &&
+          child.name is string &&
+          child.name.size() > 0 &&
+          child.name.size() <= 80 &&
+          child.isUnder12 is bool
+        )
+      );
+    }
+
     function isValidRSVP() {
       return hasOnlyAllowedFields() &&
              isValidStringLength('name', 2, 100) &&
+             isValidStatus() &&
+             isValidChildrenNames() &&
              request.resource.data.createdAt is timestamp;
     }
 
