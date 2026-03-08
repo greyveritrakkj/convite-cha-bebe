@@ -9,13 +9,13 @@ service cloud.firestore {
     // Fields:
     //   - name: string (required, max 100 chars)
     //   - status: string (required: 'yes' | 'no')
-    //   - childrenNames: list (optional, max 3 children)
+    //   - childrenNames: list (required, max 3 children)
     //   - createdAt: timestamp (required)
     // ===============================================================
 
     // Helper Functions
     function hasOnlyAllowedFields() {
-      return request.resource.data.keys().hasAll(['name', 'createdAt', 'status']) &&
+      return request.resource.data.keys().hasAll(['name', 'createdAt', 'status', 'childrenNames']) &&
           request.resource.data.keys().hasOnly(['name', 'createdAt', 'status', 'childrenNames']);
     }
     
@@ -30,8 +30,7 @@ service cloud.firestore {
     }
 
     function isValidChildrenNames() {
-      return !('childrenNames' in request.resource.data) || (
-        request.resource.data.childrenNames is list &&
+      return request.resource.data.childrenNames is list &&
         request.resource.data.childrenNames.size() <= 3 &&
         request.resource.data.childrenNames.all(child,
           child is map &&
@@ -41,8 +40,12 @@ service cloud.firestore {
           child.name.size() > 0 &&
           child.name.size() <= 80 &&
           child.isUnder12 is bool
-        )
-      );
+        );
+    }
+
+    function isValidStatusChildrenRelation() {
+      return request.resource.data.status == 'yes' ||
+        request.resource.data.childrenNames.size() == 0;
     }
 
     function isValidRSVP() {
@@ -50,6 +53,7 @@ service cloud.firestore {
              isValidStringLength('name', 2, 100) &&
              isValidStatus() &&
              isValidChildrenNames() &&
+             isValidStatusChildrenRelation() &&
              request.resource.data.createdAt is timestamp;
     }
 

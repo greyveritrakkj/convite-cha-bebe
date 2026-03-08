@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from './firebase';
-import { collection, addDoc, onSnapshot, serverTimestamp, query, orderBy, Timestamp, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, orderBy, Timestamp, deleteDoc, doc } from 'firebase/firestore';
 import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut, PlusCircle, Trash2, Info } from 'lucide-react';
 
 // ==========================================
@@ -49,6 +49,10 @@ const formatEventTime = (startDate: Date, endDate: Date) => {
   return `${start} as ${end}`;
 };
 
+const normalizeGuestName = (rawName: string) => {
+  return rawName.trim().replace(/\s+/g, ' ').toLowerCase();
+};
+
 interface Child {
   name: string;
   isUnder12: boolean;
@@ -82,7 +86,7 @@ export default function App() {
   const [isAdminAuth, setIsAdminAuth] = useState(false);
   const [adminError, setAdminError] = useState('');
 
-  // Escutar o número de confirmações e a lista completa em tempo real
+  // Escutar confirmações em tempo real (considerando apenas a última resposta por nome)
   useEffect(() => {
     const rsvpsRef = collection(db, 'rsvps');
     const q = query(rsvpsRef, orderBy('createdAt', 'desc'));
@@ -91,9 +95,14 @@ export default function App() {
       let totalCount = 0;
       let totalDeclined = 0;
       const rsvpsData: RSVP[] = [];
+      const processedNames = new Set<string>();
 
       snapshot.forEach((firestoreDoc) => {
         const data = firestoreDoc.data() as Omit<RSVP, 'id'>;
+        const normalizedName = normalizeGuestName(data.name ?? '');
+        if (!normalizedName || processedNames.has(normalizedName)) return;
+
+        processedNames.add(normalizedName);
         const status: AttendanceStatus = data.status === 'no' ? 'no' : 'yes';
         const children = data.childrenNames ?? [];
 
@@ -221,16 +230,20 @@ export default function App() {
         .map(child => ({ ...child, name: child.name.trim() }))
       : [];
 
+    const basePayload = {
+      name: name.trim(),
+      createdAt: Timestamp.now()
+    };
+
     try {
       await addDoc(collection(db, 'rsvps'), {
-        name: name.trim(),
+        ...basePayload,
         status: attendanceStatus,
-        childrenNames: validChildrenNames,
-        createdAt: serverTimestamp()
+        childrenNames: validChildrenNames
       });
       setHasConfirmed(true);
     } catch (err) {
-      console.error("Erro ao confirmar presença:", err);
+      console.error("Erro ao confirmar presenca:", err);
       setError('Ocorreu um erro ao confirmar. Tente novamente.');
     } finally {
       setIsSubmitting(false);
