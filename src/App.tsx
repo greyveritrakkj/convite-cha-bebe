@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from './firebase';
 import giftListImage from './assets/lista-cha-bebe.png';
-import teddyDecorImage from './assets/ursinho-decor.png';
+import originalTeddyImage from './assets/ursinho-decor.png';
+import bearTeddyImage from './assets/bears/teddy.png';
+import bearBrownImage from './assets/bears/bear.png';
+import bearPandaImage from './assets/bears/panda.png';
+import bearPolarImage from './assets/bears/polar.png';
 import { collection, addDoc, onSnapshot, query, orderBy, Timestamp, deleteDoc, doc } from 'firebase/firestore';
 import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut, PlusCircle, Trash2, Info } from 'lucide-react';
 
@@ -24,6 +28,12 @@ const MAX_CHILDREN = 3;
 const EVENT_START = new Date(EVENT_INFO.startAt);
 const EVENT_END = new Date(EVENT_INFO.endAt);
 const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(EVENT_INFO.location)}`;
+const DECOR_BEAR_IMAGES = {
+  teddy: bearTeddyImage,
+  bear: bearBrownImage,
+  polar: bearPolarImage,
+  panda: bearPandaImage
+};
 
 const formatCalendarDate = (date: Date) => {
   return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
@@ -418,7 +428,7 @@ export default function App() {
   // MAIN INVITATION RENDER
 
   return (
-    <div className="min-h-screen bg-blue-50/50 font-sans text-slate-800 selection:bg-blue-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-sky-100 via-blue-50 to-cyan-100 font-sans text-slate-800 selection:bg-blue-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
       {/* Container principal */}
 
       {/* Botão Admin Secreto */}
@@ -477,14 +487,17 @@ export default function App() {
       </AnimatePresence>
 
       {/* Elementos decorativos de fundo */}
-      <div className="absolute top-10 left-10 text-amber-300/30 animate-pulse"><Star size={40} /></div>
-      <div className="absolute top-20 right-16 text-amber-300/30 animate-pulse delay-75"><Star size={24} /></div>
-      <div className="absolute bottom-20 left-1/4 text-amber-300/30 animate-pulse delay-150"><Star size={32} /></div>
-      <div className="absolute top-1/3 right-10 text-amber-300/30 animate-pulse delay-300"><Star size={48} /></div>
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-white/70 to-transparent" />
+      <div className="absolute top-10 left-10 text-sky-400/35 animate-pulse"><Star size={40} /></div>
+      <div className="absolute top-20 right-16 text-amber-300/45 animate-pulse delay-75"><Star size={24} /></div>
+      <div className="absolute bottom-20 left-1/4 text-blue-300/35 animate-pulse delay-150"><Star size={32} /></div>
+      <div className="absolute top-1/3 right-10 text-sky-500/25 animate-pulse delay-300"><Star size={48} /></div>
+      <div className="pointer-events-none absolute -top-10 -left-8 h-36 w-36 rounded-full bg-white/70 blur-2xl" />
+      <div className="pointer-events-none absolute -top-12 right-0 h-32 w-32 rounded-full bg-white/60 blur-2xl" />
 
-      {/* Ursinhos decorativos */}
+      {/* Ursinhos decorativos pesquisados */}
       <motion.img
-        src={teddyDecorImage}
+        src={DECOR_BEAR_IMAGES.teddy}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute top-20 left-1 z-20 w-16 sm:w-20 opacity-80 rotate-[-14deg] drop-shadow-md select-none"
@@ -492,61 +505,77 @@ export default function App() {
         transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.img
-        src={teddyDecorImage}
+        src={DECOR_BEAR_IMAGES.panda}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute top-[34%] right-1 z-20 w-14 sm:w-16 opacity-75 rotate-[12deg] drop-shadow-sm select-none"
+        className="pointer-events-none absolute top-[33%] right-2 z-20 w-14 sm:w-16 opacity-80 rotate-[12deg] drop-shadow-sm select-none"
         animate={{ y: [0, 5, 0] }}
         transition={{ duration: 6.2, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
       />
       <motion.img
-        src={teddyDecorImage}
+        src={DECOR_BEAR_IMAGES.polar}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-32 left-2 z-20 w-14 sm:w-16 opacity-70 rotate-[10deg] drop-shadow-sm select-none"
+        className="pointer-events-none absolute bottom-36 left-2 z-20 w-14 sm:w-16 opacity-75 rotate-[10deg] drop-shadow-sm select-none"
         animate={{ y: [0, -4, 0] }}
         transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut', delay: 1.1 }}
       />
       <motion.img
-        src={teddyDecorImage}
+        src={DECOR_BEAR_IMAGES.bear}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-8 right-3 z-20 w-16 sm:w-20 opacity-65 rotate-[-8deg] drop-shadow-md select-none"
+        className="pointer-events-none absolute bottom-8 right-3 z-20 w-16 sm:w-20 opacity-70 rotate-[-8deg] drop-shadow-md select-none"
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 6.8, repeat: Infinity, ease: 'easeInOut', delay: 1.8 }}
+      />
+      <motion.img
+        src={DECOR_BEAR_IMAGES.teddy}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[55%] left-0 z-20 hidden w-12 opacity-65 rotate-[-12deg] drop-shadow-sm select-none md:block"
+        animate={{ y: [0, 4, 0] }}
+        transition={{ duration: 7.1, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+      />
+      <motion.img
+        src={originalTeddyImage}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[14%] right-20 z-20 w-16 sm:w-20 opacity-80 rotate-[-8deg] drop-shadow-md select-none"
+        animate={{ y: [0, -5, 0] }}
+        transition={{ duration: 6.4, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
       />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-md w-full bg-white rounded-[2rem] shadow-xl shadow-blue-900/5 overflow-hidden relative z-10 border border-blue-100"
+        className="max-w-md w-full bg-white/95 rounded-[2rem] shadow-2xl shadow-sky-900/10 overflow-hidden relative z-10 border border-sky-200"
       >
         <img
-          src={teddyDecorImage}
+          src={DECOR_BEAR_IMAGES.panda}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute top-3 right-3 z-20 w-10 sm:w-12 opacity-45 sm:opacity-35 rotate-[10deg] select-none"
+          className="pointer-events-none absolute top-3 right-3 z-20 w-10 sm:w-12 opacity-55 sm:opacity-40 rotate-[10deg] select-none"
         />
 
         {/* Cabeçalho */}
-        <div className="bg-gradient-to-b from-blue-100/80 to-white pt-12 pb-8 px-6 text-center relative">
+        <div className="bg-gradient-to-b from-sky-200/80 via-blue-50 to-white pt-12 pb-8 px-6 text-center relative">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", bounce: 0.5, delay: 0.2 }}
-            className="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center shadow-md shadow-blue-200/50 mb-4 text-blue-400"
+            className="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center border border-sky-100 shadow-md shadow-sky-200/60 mb-4 text-sky-500"
           >
             <Baby size={40} strokeWidth={1.5} />
           </motion.div>
 
-          <h2 className="text-blue-400 font-bold tracking-widest uppercase text-xs mb-3">
+          <h2 className="text-sky-500 font-bold tracking-widest uppercase text-xs mb-3">
             {EVENT_INFO.title}
           </h2>
-          <h1 className="text-5xl sm:text-6xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-sky-500 to-indigo-500 mb-4 drop-shadow-sm leading-tight pb-1">
+          <h1 className="text-5xl sm:text-6xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-500 mb-4 drop-shadow-sm leading-tight pb-1">
             {EVENT_INFO.babyName}
           </h1>
-          <p className="text-slate-500 font-medium text-sm sm:text-base px-4">
+          <p className="text-slate-600 font-medium text-sm sm:text-base px-4">
             {EVENT_INFO.subtitle}
           </p>
         </div>
@@ -562,13 +591,13 @@ export default function App() {
         <div className="px-6 py-6 space-y-4">
           <motion.div
             whileHover={{ scale: 1.02 }}
-            className="flex items-center p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50"
+            className="flex items-center p-4 bg-sky-50/80 rounded-2xl border border-sky-100"
           >
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 mr-4 shrink-0">
+            <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 mr-4 shrink-0">
               <MapPin size={20} />
             </div>
             <div className="text-left">
-              <p className="text-xs text-blue-400 font-semibold uppercase tracking-wider">Local</p>
+              <p className="text-xs text-sky-500 font-semibold uppercase tracking-wider">Local</p>
               <p className="text-slate-700 font-medium text-sm">{EVENT_INFO.location}</p>
             </div>
           </motion.div>
@@ -576,26 +605,26 @@ export default function App() {
           <div className="grid grid-cols-2 gap-4">
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="flex items-center p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50"
+              className="flex items-center p-4 bg-sky-50/80 rounded-2xl border border-sky-100"
             >
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 mr-3 shrink-0">
+              <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 mr-3 shrink-0">
                 <Calendar size={20} />
               </div>
               <div className="text-left">
-                <p className="text-xs text-blue-400 font-semibold uppercase tracking-wider">Data</p>
+                <p className="text-xs text-sky-500 font-semibold uppercase tracking-wider">Data</p>
                 <p className="text-slate-700 font-medium text-sm capitalize">{formatEventDate(EVENT_START)}</p>
               </div>
             </motion.div>
 
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="flex items-center p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50"
+              className="flex items-center p-4 bg-sky-50/80 rounded-2xl border border-sky-100"
             >
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 mr-3 shrink-0">
+              <div className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 mr-3 shrink-0">
                 <Clock size={20} />
               </div>
               <div className="text-left">
-                <p className="text-xs text-blue-400 font-semibold uppercase tracking-wider">Horário</p>
+                <p className="text-xs text-sky-500 font-semibold uppercase tracking-wider">Horário</p>
                 <p className="text-slate-700 font-medium text-sm">{formatEventTime(EVENT_START, EVENT_END)}</p>
               </div>
             </motion.div>
@@ -606,7 +635,7 @@ export default function App() {
               href={MAPS_LINK}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white py-2.5 px-3 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-200 bg-white py-2.5 px-3 text-sm font-medium text-sky-700 transition-colors hover:bg-sky-50"
             >
               <MapPin size={16} />
               Abrir no Maps
@@ -615,14 +644,14 @@ export default function App() {
               href={GOOGLE_CALENDAR_LINK}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white py-2.5 px-3 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-200 bg-white py-2.5 px-3 text-sm font-medium text-sky-700 transition-colors hover:bg-sky-50"
             >
               <Calendar size={16} />
               Adicionar no Google Agenda
             </a>
           </div>
 
-          <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-medium text-blue-700">
+          <div className="rounded-xl border border-sky-200 bg-gradient-to-r from-sky-100 to-blue-100 px-4 py-3 text-sm font-medium text-sky-700">
             {countdownText}
           </div>
         </div>
@@ -635,7 +664,7 @@ export default function App() {
           transition={{ duration: 0.6 }}
           className="px-6 pb-2"
         >
-          <div className="overflow-hidden rounded-[1.75rem] border border-blue-100 bg-white shadow-sm">
+          <div className="overflow-hidden rounded-[1.75rem] border border-sky-200 bg-white shadow-sm">
             <img
               src={giftListImage}
               alt="Lista de fraldas e mimos do chá de bebê"
@@ -796,7 +825,7 @@ export default function App() {
                     whileTap={{ scale: 0.98 }}
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-blue-400 hover:bg-blue-500 text-white font-medium py-3 rounded-xl shadow-md shadow-blue-400/30 transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-600 hover:to-blue-600 text-white font-medium py-3 rounded-xl shadow-md shadow-sky-400/30 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <span className="animate-pulse">Confirmando...</span>
@@ -837,7 +866,7 @@ export default function App() {
             className="mt-6 text-center flex items-center justify-center gap-2 text-slate-500"
           >
             <span className="text-sm">Total de confirmados:</span>
-            <span className="bg-blue-100 text-blue-600 font-bold px-3 py-1 rounded-full text-sm">
+            <span className="bg-sky-100 text-sky-700 font-bold px-3 py-1 rounded-full text-sm">
               {rsvpCount}
             </span>
           </motion.div>
