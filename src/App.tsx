@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from './firebase';
 import giftListImage from './assets/lista-cha-bebe.png';
+import teddyDecorImage from './assets/ursinho-decor.png';
 import { collection, addDoc, onSnapshot, query, orderBy, Timestamp, deleteDoc, doc } from 'firebase/firestore';
 import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut, PlusCircle, Trash2, Info } from 'lucide-react';
 
@@ -481,12 +482,53 @@ export default function App() {
       <div className="absolute bottom-20 left-1/4 text-amber-300/30 animate-pulse delay-150"><Star size={32} /></div>
       <div className="absolute top-1/3 right-10 text-amber-300/30 animate-pulse delay-300"><Star size={48} /></div>
 
+      {/* Ursinhos decorativos */}
+      <motion.img
+        src={teddyDecorImage}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute top-24 left-2 w-14 sm:w-20 opacity-65 rotate-[-14deg] select-none"
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.img
+        src={teddyDecorImage}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[36%] right-2 w-12 sm:w-16 opacity-55 rotate-[12deg] select-none"
+        animate={{ y: [0, 5, 0] }}
+        transition={{ duration: 6.2, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+      />
+      <motion.img
+        src={teddyDecorImage}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-36 left-4 w-12 sm:w-16 opacity-50 rotate-[10deg] select-none"
+        animate={{ y: [0, -4, 0] }}
+        transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut', delay: 1.1 }}
+      />
+      <motion.img
+        src={teddyDecorImage}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-10 right-6 hidden w-20 opacity-45 rotate-[-8deg] select-none sm:block"
+        animate={{ y: [0, 6, 0] }}
+        transition={{ duration: 6.8, repeat: Infinity, ease: 'easeInOut', delay: 1.8 }}
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-md w-full bg-white rounded-[2rem] shadow-xl shadow-blue-900/5 overflow-hidden relative z-10 border border-blue-100"
       >
+        <img
+          src={teddyDecorImage}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute top-4 right-4 hidden w-12 opacity-25 rotate-[10deg] select-none sm:block"
+        />
+
         {/* Cabeçalho */}
         <div className="bg-gradient-to-b from-blue-100/80 to-white pt-12 pb-8 px-6 text-center relative">
           <motion.div
