@@ -14,8 +14,8 @@ const EVENT_INFO = {
   subtitle: "Estamos esperando você para celebrar esse momento especial!",
   message: "Com muito carinho, convidamos você para celebrar a chegada do nosso pequeno príncipe. Sua presença vai deixar esse momento ainda mais especial e inesquecível para nossa família.",
   location: "Chácara Capixaba - Av. Maria Caetano de Abreu, 230 - Jardim Cambiri, Ferraz de Vasconcelos - SP",
-  startAt: "2026-11-15T15:00:00-03:00",
-  endAt: "2026-11-15T19:00:00-03:00",
+  startAt: "2026-04-18T15:00:00-03:00",
+  endAt: "2026-04-18T19:00:00-03:00",
 };
 
 const ADMIN_PASSWORD = (import.meta as ImportMeta & { env?: Record<string, string> }).env?.VITE_ADMIN_PASSWORD || "2013";
