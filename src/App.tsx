@@ -487,7 +487,7 @@ export default function App() {
         src={teddyDecorImage}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute top-24 left-2 w-14 sm:w-20 opacity-65 rotate-[-14deg] select-none"
+        className="pointer-events-none absolute top-20 left-1 z-20 w-16 sm:w-20 opacity-80 rotate-[-14deg] drop-shadow-md select-none"
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -495,7 +495,7 @@ export default function App() {
         src={teddyDecorImage}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute top-[36%] right-2 w-12 sm:w-16 opacity-55 rotate-[12deg] select-none"
+        className="pointer-events-none absolute top-[34%] right-1 z-20 w-14 sm:w-16 opacity-75 rotate-[12deg] drop-shadow-sm select-none"
         animate={{ y: [0, 5, 0] }}
         transition={{ duration: 6.2, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
       />
@@ -503,7 +503,7 @@ export default function App() {
         src={teddyDecorImage}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-36 left-4 w-12 sm:w-16 opacity-50 rotate-[10deg] select-none"
+        className="pointer-events-none absolute bottom-32 left-2 z-20 w-14 sm:w-16 opacity-70 rotate-[10deg] drop-shadow-sm select-none"
         animate={{ y: [0, -4, 0] }}
         transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut', delay: 1.1 }}
       />
@@ -511,7 +511,7 @@ export default function App() {
         src={teddyDecorImage}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-10 right-6 hidden w-20 opacity-45 rotate-[-8deg] select-none sm:block"
+        className="pointer-events-none absolute bottom-8 right-3 z-20 w-16 sm:w-20 opacity-65 rotate-[-8deg] drop-shadow-md select-none"
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 6.8, repeat: Infinity, ease: 'easeInOut', delay: 1.8 }}
       />
@@ -526,7 +526,7 @@ export default function App() {
           src={teddyDecorImage}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute top-4 right-4 hidden w-12 opacity-25 rotate-[10deg] select-none sm:block"
+          className="pointer-events-none absolute top-3 right-3 z-20 w-10 sm:w-12 opacity-45 sm:opacity-35 rotate-[10deg] select-none"
         />
 
         {/* Cabeçalho */}
