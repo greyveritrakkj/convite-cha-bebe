@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db } from './firebase';
+import giftListImage from './assets/lista-cha-bebe.png';
 import { collection, addDoc, onSnapshot, query, orderBy, Timestamp, deleteDoc, doc } from 'firebase/firestore';
 import { MapPin, Calendar, Clock, Baby, Star, Heart, CheckCircle2, Lock, ListOrdered, X, Users, LogOut, PlusCircle, Trash2, Info } from 'lucide-react';
 
@@ -583,6 +584,24 @@ export default function App() {
             {countdownText}
           </div>
         </div>
+
+        {/* Lista de Fraldas e Mimos */}
+        <motion.section
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.6 }}
+          className="px-6 pb-2"
+        >
+          <div className="overflow-hidden rounded-[1.75rem] border border-blue-100 bg-white shadow-sm">
+            <img
+              src={giftListImage}
+              alt="Lista de fraldas e mimos do chá de bebê"
+              className="block h-auto w-full"
+              loading="lazy"
+            />
+          </div>
+        </motion.section>
 
         {/* Área de Confirmação */}
         <div className="px-6 pb-8 pt-2">
