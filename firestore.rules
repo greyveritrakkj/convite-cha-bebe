@@ -32,15 +32,22 @@ service cloud.firestore {
     function isValidChildrenNames() {
       return request.resource.data.childrenNames is list &&
         request.resource.data.childrenNames.size() <= 3 &&
-        request.resource.data.childrenNames.all(child,
-          child is map &&
-          child.keys().hasAll(['name', 'isUnder12']) &&
-          child.keys().hasOnly(['name', 'isUnder12']) &&
-          child.name is string &&
-          child.name.size() > 0 &&
-          child.name.size() <= 80 &&
-          child.isUnder12 is bool
-        );
+        (request.resource.data.childrenNames.size() == 0 ||
+          isValidChild(request.resource.data.childrenNames[0])) &&
+        (request.resource.data.childrenNames.size() <= 1 ||
+          isValidChild(request.resource.data.childrenNames[1])) &&
+        (request.resource.data.childrenNames.size() <= 2 ||
+          isValidChild(request.resource.data.childrenNames[2]));
+    }
+
+    function isValidChild(child) {
+      return child is map &&
+        child.keys().hasAll(['name', 'isUnder12']) &&
+        child.keys().hasOnly(['name', 'isUnder12']) &&
+        child.name is string &&
+        child.name.size() > 0 &&
+        child.name.size() <= 80 &&
+        child.isUnder12 is bool;
     }
 
     function isValidStatusChildrenRelation() {

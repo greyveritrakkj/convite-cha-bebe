@@ -262,6 +262,14 @@ export default function App() {
     }
   };
 
+  const handleRegisterAnotherGuest = () => {
+    setName('');
+    setAttendanceStatus('yes');
+    setChildrenInputs([]);
+    setError('');
+    setHasConfirmed(false);
+  };
+
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (adminPassword === ADMIN_PASSWORD) {
@@ -853,6 +861,13 @@ export default function App() {
                   <p className="text-sm text-slate-500">
                     {attendanceStatus === 'yes' ? 'Obrigado por confirmar sua presença.' : 'Obrigado por avisar com antecedência.'}
                   </p>
+                  <button
+                    type="button"
+                    onClick={handleRegisterAnotherGuest}
+                    className="mt-4 inline-flex items-center justify-center rounded-xl border border-sky-200 bg-white px-4 py-2 text-sm font-medium text-sky-700 transition-colors hover:bg-sky-50"
+                  >
+                    Registrar outro convidado
+                  </button>
                 </motion.div>
               )}
             </AnimatePresence>
