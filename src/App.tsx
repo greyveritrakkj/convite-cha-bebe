@@ -18,9 +18,9 @@ const EVENT_INFO = {
   title: "Chá de Bebê do", // Título antes do nome
   subtitle: "Estamos esperando você para celebrar esse momento especial!",
   message: "Com muito carinho, convidamos você para celebrar a chegada do nosso pequeno príncipe. Sua presença vai deixar esse momento ainda mais especial e inesquecível para nossa família.",
-  location: "Chácara Capixaba - Av. Maria Caetano de Abreu, 230 - Jardim Cambiri, Ferraz de Vasconcelos - SP",
-  startAt: "2026-04-25T13:30:00-03:00",
-  endAt: "2026-04-25T19:00:00-03:00",
+  location: "Rua ida Jorge do nascimento 854, bairro duchem suzano",
+  startAt: "2026-05-02T13:30:00-03:00",
+  endAt: "2026-05-02T19:00:00-03:00",
 };
 
 const ADMIN_PASSWORD = (import.meta as ImportMeta & { env?: Record<string, string> }).env?.VITE_ADMIN_PASSWORD || "2013";
