@@ -19,8 +19,8 @@ const EVENT_INFO = {
   subtitle: "Estamos esperando você para celebrar esse momento especial!",
   message: "Com muito carinho, convidamos você para celebrar a chegada do nosso pequeno príncipe. Sua presença vai deixar esse momento ainda mais especial e inesquecível para nossa família.",
   location: "Rua ida Jorge do nascimento 854, bairro duchem suzano",
-  startAt: "2026-05-02T13:30:00-03:00",
-  endAt: "2026-05-02T19:00:00-03:00",
+  startAt: "2026-05-02T14:00:00-03:00",
+  endAt: "2026-05-02T23:30:00-03:00",
 };
 
 const ADMIN_PASSWORD = (import.meta as ImportMeta & { env?: Record<string, string> }).env?.VITE_ADMIN_PASSWORD || "2013";
@@ -684,6 +684,15 @@ export default function App() {
 
         {/* Área de Confirmação */}
         <div className="px-6 pb-8 pt-2">
+
+          {/* Avisos Gerais */}
+          <div className="mb-4 bg-sky-50/80 border border-sky-200/60 rounded-xl p-3 flex items-start gap-3 shadow-sm">
+            <div className="text-sky-500 mt-0.5"><Info size={18} /></div>
+            <div>
+              <p className="text-sm font-bold text-sky-700 uppercase tracking-wide mb-0.5">Avisos do Evento</p>
+              <p className="text-xs text-sky-600 leading-relaxed font-medium">Há dormitórios no local para se hospedar. Levar roupas de banho. Levem sua própria bebida. Narguilé liberado.</p>
+            </div>
+          </div>
 
           {/* Alerta Convidado não Convida */}
           <div className="mb-4 bg-amber-50/80 border border-amber-200/60 rounded-xl p-3 flex items-start gap-3 shadow-sm">
