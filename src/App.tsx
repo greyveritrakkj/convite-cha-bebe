@@ -437,6 +437,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen animated-gradient-bg font-sans text-slate-800 selection:bg-blue-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
+      {/* Organic floating blobs */}
+      <div className="bg-blob bg-blob--1" />
+      <div className="bg-blob bg-blob--2" />
+      <div className="bg-blob bg-blob--3" />
+      <div className="bg-blob bg-blob--4" />
+      <div className="bg-blob bg-blob--5" />
+
       {/* Container principal */}
 
       {/* Botão Admin Secreto */}

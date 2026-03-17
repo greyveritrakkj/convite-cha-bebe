@@ -7,35 +7,110 @@
   --font-display: "Poppins", sans-serif;
 }
 
-/* Animated gradient background */
+/* ===== Organic animated background ===== */
 .animated-gradient-bg {
-  background: linear-gradient(
-    -45deg,
-    #dbeafe,
-    #e0f2fe,
-    #cffafe,
-    #ede9fe,
-    #e0f2fe,
-    #dbeafe
-  );
-  background-size: 400% 400%;
-  animation: gradientShift 12s ease infinite;
+  background: #e8f4fd;
+  position: relative;
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  25% {
-    background-position: 100% 0%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  75% {
-    background-position: 0% 100%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.animated-gradient-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #e8f4fd;
+}
+
+/* Floating blob base */
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+/* Individual blob configs */
+.bg-blob--1 {
+  width: 45vmax;
+  height: 45vmax;
+  background: radial-gradient(circle, #93c5fd 0%, #bae6fd 60%, transparent 100%);
+  top: -12%;
+  left: -10%;
+  animation: blobFloat1 18s ease-in-out infinite;
+}
+
+.bg-blob--2 {
+  width: 38vmax;
+  height: 38vmax;
+  background: radial-gradient(circle, #c4b5fd 0%, #ddd6fe 60%, transparent 100%);
+  top: 15%;
+  right: -15%;
+  animation: blobFloat2 22s ease-in-out infinite;
+}
+
+.bg-blob--3 {
+  width: 50vmax;
+  height: 50vmax;
+  background: radial-gradient(circle, #a5f3fc 0%, #cffafe 55%, transparent 100%);
+  bottom: -20%;
+  left: -8%;
+  animation: blobFloat3 20s ease-in-out infinite;
+}
+
+.bg-blob--4 {
+  width: 32vmax;
+  height: 32vmax;
+  background: radial-gradient(circle, #fbcfe8 0%, #fce7f3 60%, transparent 100%);
+  top: 50%;
+  left: 40%;
+  animation: blobFloat4 25s ease-in-out infinite;
+}
+
+.bg-blob--5 {
+  width: 28vmax;
+  height: 28vmax;
+  background: radial-gradient(circle, #bfdbfe 0%, #dbeafe 50%, transparent 100%);
+  bottom: 5%;
+  right: -5%;
+  animation: blobFloat5 16s ease-in-out infinite;
+}
+
+/* Organic movement keyframes — each blob on its own path */
+@keyframes blobFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%      { transform: translate(8vw, 12vh) scale(1.08); }
+  50%      { transform: translate(-5vw, 20vh) scale(0.95); }
+  75%      { transform: translate(10vw, 6vh) scale(1.05); }
+}
+
+@keyframes blobFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  20%      { transform: translate(-12vw, 8vh) scale(1.1); }
+  45%      { transform: translate(-6vw, -10vh) scale(0.92); }
+  70%      { transform: translate(5vw, 15vh) scale(1.06); }
+}
+
+@keyframes blobFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  30%      { transform: translate(15vw, -8vh) scale(1.12); }
+  60%      { transform: translate(5vw, -18vh) scale(0.9); }
+  85%      { transform: translate(-8vw, -5vh) scale(1.04); }
+}
+
+@keyframes blobFloat4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  35%      { transform: translate(-10vw, -12vh) scale(1.15); }
+  55%      { transform: translate(8vw, 5vh) scale(0.88); }
+  80%      { transform: translate(-3vw, 10vh) scale(1.08); }
+}
+
+@keyframes blobFloat5 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  20%      { transform: translate(10vw, -6vh) scale(1.1); }
+  50%      { transform: translate(-8vw, 8vh) scale(0.93); }
+  75%      { transform: translate(4vw, -10vh) scale(1.07); }
 }
