@@ -699,7 +699,7 @@ export default function App() {
             <div className="text-amber-500 mt-0.5"><Users size={18} /></div>
             <div>
               <p className="text-sm font-bold text-amber-700 uppercase tracking-wide mb-0.5">Lembrete Importante</p>
-              <p className="text-xs text-amber-600 leading-relaxed font-medium">A nossa lista é restrita e planejada com muito carinho. Por favor, lembre-se: <b>Convidado não convida!</b></p>
+              <p className="text-xs text-amber-600 leading-relaxed font-medium">Nossa lista é restrita e planejada com muito carinho.</p>
             </div>
           </div>
 
