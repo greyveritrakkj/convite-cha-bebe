@@ -436,7 +436,7 @@ export default function App() {
   // MAIN INVITATION RENDER
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-100 via-blue-50 to-cyan-100 font-sans text-slate-800 selection:bg-blue-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
+    <div className="min-h-screen animated-gradient-bg font-sans text-slate-800 selection:bg-blue-200 flex flex-col items-center justify-center p-4 sm:p-8 relative overflow-hidden">
       {/* Container principal */}
 
       {/* Botão Admin Secreto */}
@@ -544,14 +544,7 @@ export default function App() {
         animate={{ y: [0, 4, 0] }}
         transition={{ duration: 7.1, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
       />
-      <motion.img
-        src={originalTeddyImage}
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute top-[14%] right-20 z-20 w-16 sm:w-20 opacity-80 rotate-[-8deg] drop-shadow-md select-none"
-        animate={{ y: [0, -5, 0] }}
-        transition={{ duration: 6.4, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
-      />
+
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -559,12 +552,7 @@ export default function App() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-md w-full bg-white/95 rounded-[2rem] shadow-2xl shadow-sky-900/10 overflow-hidden relative z-10 border border-sky-200"
       >
-        <img
-          src={DECOR_BEAR_IMAGES.panda}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute top-3 right-3 z-20 w-10 sm:w-12 opacity-55 sm:opacity-40 rotate-[10deg] select-none"
-        />
+
 
         {/* Cabeçalho */}
         <div className="bg-gradient-to-b from-sky-200/80 via-blue-50 to-white pt-12 pb-8 px-6 text-center relative">
@@ -896,14 +884,22 @@ export default function App() {
         </div>
       </motion.div>
 
-      <p className="mt-8 text-slate-400 text-xs text-center max-w-xs">
-        Esperamos você nesse momento especial!
+      <p className="mt-4 text-slate-500 text-sm text-center max-w-xs font-medium">
+        Esperamos você nesse momento especial! ✨
       </p>
 
       {/* Créditos */}
-      <p className="absolute bottom-2 right-4 text-[10px] text-slate-400 uppercase tracking-widest font-mono select-none">
-        Feito pelos Vritra
-      </p>
+      <div className="mt-6 mb-4 flex flex-col items-center gap-1 select-none">
+        <img
+          src={originalTeddyImage}
+          alt=""
+          aria-hidden="true"
+          className="w-10 opacity-60 drop-shadow-sm mb-1"
+        />
+        <p className="text-sm font-display font-semibold tracking-wide text-slate-400">
+          Feito com <Heart size={12} className="inline fill-pink-400 text-pink-400 mx-0.5" /> pelos Vritra
+        </p>
+      </div>
     </div>
   );
 }
