@@ -9,108 +9,100 @@
 
 /* ===== Organic animated background ===== */
 .animated-gradient-bg {
-  background: #e8f4fd;
+  background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 30%, #ede9fe 70%, #cffafe 100%);
   position: relative;
-}
-
-.animated-gradient-bg::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: #e8f4fd;
 }
 
 /* Floating blob base */
 .bg-blob {
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.55;
+  filter: blur(60px);
+  opacity: 0.7;
   pointer-events: none;
   z-index: 0;
   will-change: transform;
+  mix-blend-mode: normal;
 }
 
-/* Individual blob configs */
+/* Individual blob configs — vivid, saturated colors */
 .bg-blob--1 {
-  width: 45vmax;
-  height: 45vmax;
-  background: radial-gradient(circle, #93c5fd 0%, #bae6fd 60%, transparent 100%);
-  top: -12%;
-  left: -10%;
-  animation: blobFloat1 18s ease-in-out infinite;
+  width: 55vmax;
+  height: 55vmax;
+  background: radial-gradient(circle, #60a5fa 0%, #93c5fd 50%, transparent 80%);
+  top: -15%;
+  left: -15%;
+  animation: blobFloat1 10s ease-in-out infinite;
 }
 
 .bg-blob--2 {
-  width: 38vmax;
-  height: 38vmax;
-  background: radial-gradient(circle, #c4b5fd 0%, #ddd6fe 60%, transparent 100%);
-  top: 15%;
-  right: -15%;
-  animation: blobFloat2 22s ease-in-out infinite;
+  width: 45vmax;
+  height: 45vmax;
+  background: radial-gradient(circle, #a78bfa 0%, #c4b5fd 50%, transparent 80%);
+  top: 10%;
+  right: -18%;
+  animation: blobFloat2 13s ease-in-out infinite;
 }
 
 .bg-blob--3 {
-  width: 50vmax;
-  height: 50vmax;
-  background: radial-gradient(circle, #a5f3fc 0%, #cffafe 55%, transparent 100%);
-  bottom: -20%;
-  left: -8%;
-  animation: blobFloat3 20s ease-in-out infinite;
+  width: 60vmax;
+  height: 60vmax;
+  background: radial-gradient(circle, #67e8f9 0%, #a5f3fc 50%, transparent 80%);
+  bottom: -25%;
+  left: -12%;
+  animation: blobFloat3 11s ease-in-out infinite;
 }
 
 .bg-blob--4 {
-  width: 32vmax;
-  height: 32vmax;
-  background: radial-gradient(circle, #fbcfe8 0%, #fce7f3 60%, transparent 100%);
-  top: 50%;
-  left: 40%;
-  animation: blobFloat4 25s ease-in-out infinite;
+  width: 40vmax;
+  height: 40vmax;
+  background: radial-gradient(circle, #f9a8d4 0%, #fbcfe8 50%, transparent 80%);
+  top: 45%;
+  left: 35%;
+  animation: blobFloat4 14s ease-in-out infinite;
 }
 
 .bg-blob--5 {
-  width: 28vmax;
-  height: 28vmax;
-  background: radial-gradient(circle, #bfdbfe 0%, #dbeafe 50%, transparent 100%);
-  bottom: 5%;
-  right: -5%;
-  animation: blobFloat5 16s ease-in-out infinite;
+  width: 35vmax;
+  height: 35vmax;
+  background: radial-gradient(circle, #7dd3fc 0%, #bae6fd 50%, transparent 80%);
+  bottom: 0%;
+  right: -8%;
+  animation: blobFloat5 9s ease-in-out infinite;
 }
 
-/* Organic movement keyframes — each blob on its own path */
+/* Organic movement keyframes — wide, visible movements */
 @keyframes blobFloat1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  25%      { transform: translate(8vw, 12vh) scale(1.08); }
-  50%      { transform: translate(-5vw, 20vh) scale(0.95); }
-  75%      { transform: translate(10vw, 6vh) scale(1.05); }
+  25%      { transform: translate(15vw, 18vh) scale(1.15); }
+  50%      { transform: translate(-8vw, 30vh) scale(0.9); }
+  75%      { transform: translate(12vw, 10vh) scale(1.1); }
 }
 
 @keyframes blobFloat2 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  20%      { transform: translate(-12vw, 8vh) scale(1.1); }
-  45%      { transform: translate(-6vw, -10vh) scale(0.92); }
-  70%      { transform: translate(5vw, 15vh) scale(1.06); }
+  20%      { transform: translate(-18vw, 12vh) scale(1.18); }
+  50%      { transform: translate(-10vw, -15vh) scale(0.85); }
+  75%      { transform: translate(8vw, 20vh) scale(1.12); }
 }
 
 @keyframes blobFloat3 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  30%      { transform: translate(15vw, -8vh) scale(1.12); }
-  60%      { transform: translate(5vw, -18vh) scale(0.9); }
-  85%      { transform: translate(-8vw, -5vh) scale(1.04); }
+  30%      { transform: translate(20vw, -12vh) scale(1.2); }
+  60%      { transform: translate(8vw, -25vh) scale(0.85); }
+  85%      { transform: translate(-12vw, -8vh) scale(1.1); }
 }
 
 @keyframes blobFloat4 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  35%      { transform: translate(-10vw, -12vh) scale(1.15); }
-  55%      { transform: translate(8vw, 5vh) scale(0.88); }
-  80%      { transform: translate(-3vw, 10vh) scale(1.08); }
+  30%      { transform: translate(-15vw, -18vh) scale(1.2); }
+  55%      { transform: translate(12vw, 8vh) scale(0.82); }
+  80%      { transform: translate(-5vw, 15vh) scale(1.15); }
 }
 
 @keyframes blobFloat5 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  20%      { transform: translate(10vw, -6vh) scale(1.1); }
-  50%      { transform: translate(-8vw, 8vh) scale(0.93); }
-  75%      { transform: translate(4vw, -10vh) scale(1.07); }
+  25%      { transform: translate(14vw, -10vh) scale(1.15); }
+  50%      { transform: translate(-12vw, 12vh) scale(0.88); }
+  75%      { transform: translate(6vw, -15vh) scale(1.12); }
 }

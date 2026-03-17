@@ -891,12 +891,12 @@ export default function App() {
         </div>
       </motion.div>
 
-      <p className="mt-4 text-slate-500 text-sm text-center max-w-xs font-medium">
+      <p className="mt-4 text-slate-500 text-sm text-center max-w-xs font-medium z-10 relative">
         Esperamos você nesse momento especial! ✨
       </p>
 
       {/* Créditos */}
-      <div className="mt-6 mb-4 flex flex-col items-center gap-1 select-none">
+      <div className="mt-6 mb-4 flex flex-col items-center gap-1 select-none z-10 relative">
         <img
           src={originalTeddyImage}
           alt=""
