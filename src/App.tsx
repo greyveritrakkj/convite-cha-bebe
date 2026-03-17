@@ -24,7 +24,7 @@ const EVENT_INFO = {
 };
 
 const ADMIN_PASSWORD = (import.meta as ImportMeta & { env?: Record<string, string> }).env?.VITE_ADMIN_PASSWORD || "2013";
-const MAX_CHILDREN = 3;
+const MAX_CHILDREN = 15;
 const EVENT_START = new Date(EVENT_INFO.startAt);
 const EVENT_END = new Date(EVENT_INFO.endAt);
 const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(EVENT_INFO.location)}`;
